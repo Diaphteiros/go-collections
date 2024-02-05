@@ -19,10 +19,8 @@ help: ## Display this help.
 
 ##@ Development
 
-.PHONY: revendor
-revendor: ## Runs 'go mod tidy' and 'go mod vendor'.
-	go mod tidy
-	go mod vendor
+.PHONY: tidy
+tidy: ## Runs 'go mod tidy'.
 	go mod tidy
 
 .PHONY: fmt
