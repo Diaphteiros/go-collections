@@ -1,6 +1,10 @@
 package collections
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	cerr "github.com/Diaphteiros/go-collections/pkg/collections/errors"
+)
 
 var _ List[any] = &abstractList[any]{}
 
@@ -34,7 +38,7 @@ func (al *abstractList[T]) RemoveIndex(idx int) error {
 func (al *abstractList[T]) Get(idx int) (T, error) {
 	var res T
 	if idx < 0 || idx >= al.Size() {
-		return res, newIndexOutOfBoundsError(idx)
+		return res, cerr.NewIndexOutOfBoundsError(idx)
 	}
 	it := al.Iterator()
 	for i := 0; i < idx; i++ {

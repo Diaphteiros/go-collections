@@ -28,6 +28,11 @@ var _ = Describe("List Tests", func() {
 			Constructor:      func(elems ...int) List[int] { return NewArrayList[int](elems...) },
 			AllowsDuplicates: true,
 		},
+		{
+			Name:             "LinkedList",
+			Constructor:      func(elems ...int) List[int] { return NewLinkedList[int](elems...) },
+			AllowsDuplicates: true,
+		},
 	} {
 		runListTests(impl)
 	}

@@ -2,24 +2,7 @@ package collections
 
 import (
 	"encoding/json"
-	"fmt"
 )
-
-type IndexOutOfBoundsError struct {
-	Index int
-}
-
-var _ error = &IndexOutOfBoundsError{}
-
-func newIndexOutOfBoundsError(i int) *IndexOutOfBoundsError {
-	return &IndexOutOfBoundsError{
-		Index: i,
-	}
-}
-
-func (err *IndexOutOfBoundsError) Error() string {
-	return fmt.Sprintf("index out of bounds: %d", err.Index)
-}
 
 type List[T any] interface {
 	Collection[T]

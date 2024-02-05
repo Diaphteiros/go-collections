@@ -1,8 +1,12 @@
 package collections
 
-import iterators "github.com/Diaphteiros/go-collections/pkg/iterators"
+import (
+	cerr "github.com/Diaphteiros/go-collections/pkg/collections/errors"
+	iterators "github.com/Diaphteiros/go-collections/pkg/iterators"
+)
 
 var _ List[any] = &LinkedList[any]{}
+var _ Queue[any] = &LinkedList[any]{}
 
 type LinkedList[T any] struct {
 	abstractList[T]
@@ -159,7 +163,7 @@ func (l *LinkedList[T]) AddIndex(element T, idx int) error {
 	}
 	elem := l.elementAt(idx)
 	if elem == nil {
-		return newIndexOutOfBoundsError(idx)
+		return cerr.NewIndexOutOfBoundsError(idx)
 	}
 	newElem := &llElement[T]{
 		value: element,
@@ -175,7 +179,7 @@ func (l *LinkedList[T]) AddIndex(element T, idx int) error {
 func (l *LinkedList[T]) RemoveIndex(idx int) error {
 	elem := l.elementAt(idx)
 	if elem == nil {
-		return newIndexOutOfBoundsError(idx)
+		return cerr.NewIndexOutOfBoundsError(idx)
 	}
 	elem.remove()
 	l.size--
@@ -186,8 +190,55 @@ func (l *LinkedList[T]) Get(idx int) (T, error) {
 	var res T
 	elem := l.elementAt(idx)
 	if elem == nil {
-		return res, newIndexOutOfBoundsError(idx)
+		return res, cerr.NewIndexOutOfBoundsError(idx)
 	}
+	return elem.value, nil
+}
+
+//////////////////////////
+// QUEUE IMPLEMENTATION //
+//////////////////////////
+
+func (l *LinkedList[T]) Push(elements ...T) error {
+	l.Add(elements...)
+	return nil
+}
+
+func (l *LinkedList[T]) Peek() T {
+	if l.IsEmpty() {
+		var zero T
+		return zero
+	}
+	return l.dummy.next.value
+}
+
+func (l *LinkedList[T]) Element() (T, error) {
+	if l.IsEmpty() {
+		var zero T
+		return zero, cerr.NewCollectionEmptyError()
+	}
+	return l.dummy.next.value, nil
+}
+
+func (l *LinkedList[T]) Poll() T {
+	if l.IsEmpty() {
+		var zero T
+		return zero
+	}
+	elem := l.dummy.next
+	elem.remove()
+	l.size--
+	return elem.value
+}
+
+func (l *LinkedList[T]) Fetch() (T, error) {
+	if l.IsEmpty() {
+		var zero T
+		return zero, cerr.NewCollectionEmptyError()
+	}
+	elem := l.dummy.next
+	elem.remove()
+	l.size--
 	return elem.value, nil
 }
 

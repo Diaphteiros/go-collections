@@ -1,6 +1,9 @@
 package collections
 
-import iterators "github.com/Diaphteiros/go-collections/pkg/iterators"
+import (
+	cerr "github.com/Diaphteiros/go-collections/pkg/collections/errors"
+	iterators "github.com/Diaphteiros/go-collections/pkg/iterators"
+)
 
 var _ List[any] = &ArrayList[any]{}
 
@@ -123,7 +126,7 @@ func (l *ArrayList[T]) ToSlice() []T {
 
 func (l *ArrayList[T]) AddIndex(element T, idx int) error {
 	if idx < 0 || idx > l.Size() {
-		return newIndexOutOfBoundsError(idx)
+		return cerr.NewIndexOutOfBoundsError(idx)
 	}
 	if len(l.internal) <= l.Size()+1 {
 		l.resize(maximum(len(l.internal), 1) * 2)
@@ -138,7 +141,7 @@ func (l *ArrayList[T]) AddIndex(element T, idx int) error {
 
 func (l *ArrayList[T]) RemoveIndex(idx int) error {
 	if idx < 0 || idx >= l.Size() {
-		return newIndexOutOfBoundsError(idx)
+		return cerr.NewIndexOutOfBoundsError(idx)
 	}
 	l.removeIndex(idx, true)
 	return nil
@@ -147,7 +150,7 @@ func (l *ArrayList[T]) RemoveIndex(idx int) error {
 func (l *ArrayList[T]) Get(idx int) (T, error) {
 	var res T
 	if idx < 0 || idx >= l.Size() {
-		return res, newIndexOutOfBoundsError(idx)
+		return res, cerr.NewIndexOutOfBoundsError(idx)
 	}
 	return l.internal[idx], nil
 }

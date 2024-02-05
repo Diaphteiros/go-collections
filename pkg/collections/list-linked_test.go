@@ -22,6 +22,13 @@ var _ = Describe("LinkedList Integrity Validation", func() {
 		li.validateIntegrity("after AddIndex to beginning of list")
 		li.AddIndex(8, li.size)
 		li.validateIntegrity("after AddIndex to end of list")
+		Expect(li.Push(5, 6)).To(Succeed())
+		li.validateIntegrity("after Push")
+		li.Poll()
+		li.validateIntegrity("after Poll")
+		_, err := li.Fetch()
+		Expect(err).ToNot(HaveOccurred())
+		li.validateIntegrity("after Fetch")
 	})
 
 })
