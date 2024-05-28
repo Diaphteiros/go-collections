@@ -1,4 +1,4 @@
-package collections
+package iterators
 
 var _ Iterator[any] = &LinkedIterator[any]{}
 
