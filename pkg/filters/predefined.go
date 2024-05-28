@@ -63,7 +63,7 @@ func Wrap(f any, staticArgs map[int]any) Filter {
 		vsLen := len(args) + len(staticArgs)
 		vs := make([]reflect.Value, vsLen)
 		j := 0
-		for i := 0; i < vsLen; i++ {
+		for i := range vsLen {
 			if sarg, ok := staticArgs[i]; ok {
 				vs[i] = reflect.ValueOf(sarg)
 			} else {

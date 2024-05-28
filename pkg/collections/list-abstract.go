@@ -41,7 +41,7 @@ func (al *abstractList[T]) Get(idx int) (T, error) {
 		return res, cerr.NewIndexOutOfBoundsError(idx)
 	}
 	it := al.Iterator()
-	for i := 0; i < idx; i++ {
+	for range idx {
 		it.Next()
 	}
 	return it.Next(), nil

@@ -181,7 +181,7 @@ func (l *ArrayList[T]) remove(all bool, elements ...T) bool {
 	tbri := 0
 	for tbri < len(elements) {
 		idx := -1
-		for i := 0; i < l.size; i++ {
+		for i := range l.size {
 			if Equals(l.internal[i], elements[tbri]) {
 				idx = i
 				break
