@@ -24,6 +24,7 @@ func NewArrayList[T any](elements ...T) *ArrayList[T] {
 	res.funcRemove = res.Remove
 	res.funcRemoveIf = res.RemoveIf
 	res.funcSize = res.Size
+	res.funcNew = res.New
 
 	res.Add(elements...)
 
@@ -118,6 +119,11 @@ func (l *ArrayList[T]) ToSlice() []T {
 		res[i] = l.internal[i]
 	}
 	return res
+}
+
+// New returns a new Collection of the same type.
+func (l *ArrayList[T]) New() Collection[T] {
+	return NewArrayList[T]()
 }
 
 /////////////////////////

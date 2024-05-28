@@ -1,6 +1,7 @@
-package collections
+package collections_test
 
 import (
+	"github.com/Diaphteiros/go-collections/pkg/collections"
 	cerr "github.com/Diaphteiros/go-collections/pkg/collections/errors"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -8,7 +9,7 @@ import (
 
 type queueImplementation struct {
 	Name             string
-	Constructor      func(elems ...int) Queue[int]
+	Constructor      func(elems ...int) collections.Queue[int]
 	AllowsDuplicates bool
 }
 
@@ -17,7 +18,7 @@ var _ = Describe("Queue Tests", func() {
 	for _, impl := range []*queueImplementation{
 		{
 			Name:             "LinkedList",
-			Constructor:      func(elems ...int) Queue[int] { return NewLinkedList[int](elems...) },
+			Constructor:      func(elems ...int) collections.Queue[int] { return collections.NewLinkedList[int](elems...) },
 			AllowsDuplicates: true,
 		},
 	} {
@@ -27,7 +28,7 @@ var _ = Describe("Queue Tests", func() {
 })
 
 func runQueueTests(impl *queueImplementation) {
-	var q Queue[int]
+	var q collections.Queue[int]
 
 	BeforeEach(func() {
 		q = impl.Constructor(baseData...)
@@ -57,7 +58,7 @@ func runQueueTests(impl *queueImplementation) {
 			})
 
 			It("should show correct error behavior for peek/element", func() {
-				var eq Queue[int] = NewLinkedList[int]()
+				var eq collections.Queue[int] = collections.NewLinkedList[int]()
 				Expect(eq.Peek()).To(Equal(0))
 				_, err := eq.Element()
 				Expect(err).To(HaveOccurred())
@@ -84,7 +85,7 @@ func runQueueTests(impl *queueImplementation) {
 			})
 
 			It("should show correct error behavior for poll/fetch", func() {
-				var eq Queue[int] = NewLinkedList[int]()
+				var eq collections.Queue[int] = collections.NewLinkedList[int]()
 				Expect(eq.Poll()).To(Equal(0))
 				_, err := eq.Fetch()
 				Expect(err).To(HaveOccurred())

@@ -1,9 +1,10 @@
-package collections
+package collections_test
 
 import (
 	"bytes"
 	"encoding/json"
 
+	"github.com/Diaphteiros/go-collections/pkg/collections"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -12,7 +13,7 @@ var baseDataJSON []byte
 
 type listImplementation struct {
 	Name             string
-	Constructor      func(elems ...int) List[int]
+	Constructor      func(elems ...int) collections.List[int]
 	AllowsDuplicates bool
 }
 
@@ -25,12 +26,12 @@ var _ = Describe("List Tests", func() {
 	for _, impl := range []*listImplementation{
 		{
 			Name:             "ArrayList",
-			Constructor:      func(elems ...int) List[int] { return NewArrayList[int](elems...) },
+			Constructor:      func(elems ...int) collections.List[int] { return collections.NewArrayList[int](elems...) },
 			AllowsDuplicates: true,
 		},
 		{
 			Name:             "LinkedList",
-			Constructor:      func(elems ...int) List[int] { return NewLinkedList[int](elems...) },
+			Constructor:      func(elems ...int) collections.List[int] { return collections.NewLinkedList[int](elems...) },
 			AllowsDuplicates: true,
 		},
 	} {
@@ -40,7 +41,7 @@ var _ = Describe("List Tests", func() {
 })
 
 func runListTests(impl *listImplementation) {
-	var li List[int]
+	var li collections.List[int]
 
 	BeforeEach(func() {
 		li = impl.Constructor(baseData...)

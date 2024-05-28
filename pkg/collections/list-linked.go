@@ -242,6 +242,11 @@ func (l *LinkedList[T]) Fetch() (T, error) {
 	return elem.value, nil
 }
 
+// New returns a new Collection of the same type.
+func (l *LinkedList[T]) New() Collection[T] {
+	return NewLinkedList[T]()
+}
+
 /////////////////////////
 // AUXILIARY FUNCTIONS //
 /////////////////////////

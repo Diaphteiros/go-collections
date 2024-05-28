@@ -1,13 +1,16 @@
-package collections
+package collections_test
 
 import (
+	"reflect"
+
+	"github.com/Diaphteiros/go-collections/pkg/collections"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
 type collectionImplementation struct {
 	Name             string
-	Constructor      func(elems ...int) Collection[int]
+	Constructor      func(elems ...int) collections.Collection[int]
 	AllowsDuplicates bool
 }
 
@@ -16,12 +19,12 @@ var _ = Describe("Collection Tests", func() {
 	for _, impl := range []*collectionImplementation{
 		{
 			Name:             "ArrayList",
-			Constructor:      func(elems ...int) Collection[int] { return NewArrayList[int](elems...) },
+			Constructor:      func(elems ...int) collections.Collection[int] { return collections.NewArrayList[int](elems...) },
 			AllowsDuplicates: true,
 		},
 		{
 			Name:             "LinkedList",
-			Constructor:      func(elems ...int) Collection[int] { return NewLinkedList[int](elems...) },
+			Constructor:      func(elems ...int) collections.Collection[int] { return collections.NewLinkedList[int](elems...) },
 			AllowsDuplicates: true,
 		},
 	} {
@@ -31,7 +34,7 @@ var _ = Describe("Collection Tests", func() {
 })
 
 func runCollectionTests(impl *collectionImplementation) {
-	var col Collection[int]
+	var col collections.Collection[int]
 
 	BeforeEach(func() {
 		col = impl.Constructor(baseData...)
@@ -117,13 +120,13 @@ func runCollectionTests(impl *collectionImplementation) {
 
 			It("should check if multiple elements are contained in collection", func() {
 				Expect(col.ContainsAll(col)).To(BeTrue())
-				Expect(col.ContainsAll(NewArrayList(1, 2, 3, 4, -3))).To(BeFalse())
+				Expect(col.ContainsAll(collections.NewArrayList(1, 2, 3, 4, -3))).To(BeFalse())
 			})
 
 			It("should compare two collections", func() {
 				Expect(col.Equals(col)).To(BeTrue())
-				Expect(col.Equals(NewArrayList(baseData...))).To(BeTrue())
-				Expect(col.Equals(NewArrayList[int]())).To(BeFalse())
+				Expect(col.Equals(collections.NewArrayList(baseData...))).To(BeTrue())
+				Expect(col.Equals(collections.NewArrayList[int]())).To(BeFalse())
 			})
 
 		})
@@ -210,6 +213,15 @@ func runCollectionTests(impl *collectionImplementation) {
 				})
 
 			}
+
+		})
+
+		Context("New", func() {
+
+			It("should return a new collection of the same type", func() {
+				n := col.New()
+				Expect(reflect.TypeOf(n)).To(Equal(reflect.TypeOf(col)))
+			})
 
 		})
 

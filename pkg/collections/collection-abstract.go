@@ -19,6 +19,7 @@ type abstractCollection[T any] struct {
 	funcRemove   func(elements ...T) bool
 	funcRemoveIf func(filter Predicate[T]) bool
 	funcSize     func() int
+	funcNew      func() Collection[T]
 }
 
 func (ac *abstractCollection[T]) Add(elements ...T) bool {
@@ -160,4 +161,12 @@ func (ac *abstractCollection[T]) ToSlice() []T {
 		res[i] = it.Next()
 	}
 	return res
+}
+
+// New returns a new Collection of the same type.
+func (ac *abstractCollection[T]) New() Collection[T] {
+	if ac.funcNew != nil {
+		return ac.funcNew()
+	}
+	panic(ErrNotImplemented)
 }

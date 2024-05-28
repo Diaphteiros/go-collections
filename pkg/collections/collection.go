@@ -62,6 +62,9 @@ type Collection[T any] interface {
 
 	// ToSlice returns a slice containing the elements in this collection.
 	ToSlice() []T
+
+	// New returns a new Collection of the same type.
+	New() Collection[T]
 }
 
 type Predicate[T any] func(T) bool
