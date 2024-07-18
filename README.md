@@ -45,3 +45,7 @@ Implements `Collection`, `List`, `Queue`, and `Iterable`.
 ### Filters
 
 The `filters` package provides utility functions to filter maps, slices, and collections with given filter functions.
+
+### Maps
+
+The `maps` package contains some utility functions for working with go maps (mainly a `Merge` function).
